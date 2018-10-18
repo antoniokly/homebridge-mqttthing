@@ -557,9 +557,15 @@ function makeThing(log, config) {
             mqttSubscribe(getTopic, function (topic, message) {
               var newState;
 
+              log.info(topic, message);
+
               if (config.jsonKeys) {
+
                 var keys = config.jsonKeys[getTopic];
                 var json = JSON.parse(message);
+
+                log.info(topic, "json:", json);
+
 
                 if ( Array.isArray(keys) ) {
                   for (var i = 0; i < keys.length; i++) {
