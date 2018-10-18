@@ -562,6 +562,10 @@ function makeThing(log, config) {
                 var keys = config.jsonKeys[getTopic];
                 var json = JSON.parse(message);
 
+                log.info(topic, "keys:", JSON.stringify(keys));
+
+
+
                 if ( Array.isArray(keys) ) {
                   for (var i = 0; i < keys.length; i++) {
                     log.info(topic, JSON.stringify(json));
@@ -577,7 +581,7 @@ function makeThing(log, config) {
                 newState = parseFloat(message);
               }
 
-              log.info(topic, "newState=", newState);
+              log.info(topic, "newState:", newState);
 
 
                 if (state[property] != newState) {
