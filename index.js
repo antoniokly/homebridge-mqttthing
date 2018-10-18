@@ -555,7 +555,27 @@ function makeThing(log, config) {
         // subscribe to get topic
         if (getTopic) {
             mqttSubscribe(getTopic, function (topic, message) {
-                var newState = parseFloat(message);
+              var newState;
+
+              if (config.jsonKeys) {
+                var keys = config.jsonKeys[getTopic];
+                var json = JSON.parse(message);
+
+                if ( Array.isArray(keys) ) {
+                  for (var i = 0; i < keys.length; i++) {
+                    json = json[keys[i]];
+                  }
+                  newState = parseFloat(json.toString());
+                } else {
+                  return;
+                }
+              } else {
+                newState = parseFloat(message);
+              }
+
+
+
+
                 if (state[property] != newState) {
                     state[property] = newState;
                     service.getCharacteristic(characteristic).setValue(newState, undefined, c_mySetContext);
