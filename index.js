@@ -87,11 +87,15 @@ function makeThing(log, config) {
     }
 
     function getOnOffValueByPower(value) {
+        log("getOnOffValueByPower: " + value)
         if (value === undefined) {
           return false;
         }
 
         var pubVal = value > (config.powerThreshold ? config.powerThreshold : 0.0);
+
+        log("value > " + config.powerThreshold + " = " pubVal)
+
         return pubVal.toString();
     }
 
