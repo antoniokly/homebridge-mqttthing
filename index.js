@@ -92,11 +92,11 @@ function makeThing(log, config) {
           return false;
         }
 
-        var pubVal = value > (config.powerThreshold ? config.powerThreshold : 0.0);
+        var isOn = value > (config.powerThreshold ? config.powerThreshold : 0.0);
 
         log("value > " + config.powerThreshold + " = " + pubVal)
 
-        return pubVal.toString();
+        return isOn;
     }
 
     function mapValueForHomebridge(val, mapValueFunc) {
