@@ -86,6 +86,15 @@ function makeThing(log, config) {
         return pubVal.toString();
     }
 
+    function getOnOffValueByPower(value) {
+        if (value === undefined) {
+          return false;
+        }
+
+        var value > (config.powerThreshold ? config.powerThreshold : 0.0);
+        return value.toString();
+    }
+
     function mapValueForHomebridge(val, mapValueFunc) {
         if (mapValueFunc) {
             return mapValueFunc(val);
@@ -138,7 +147,14 @@ function makeThing(log, config) {
         // subscribe to get topic
         if (getTopic) {
             mqttSubscribe(getTopic, function (topic, message) {
-                var newState = (message == onOffValue(true));
+                var newState;
+
+                if (config.getOnByPower) {
+                  newState = getOnOffValueByPower(parseFloat(message));
+                } else {
+                  newState = (message == onOffValue(true));
+                }
+
                 if (state[property] != newState) {
                     state[property] = newState;
                     service.getCharacteristic(characteristic).setValue(mapValueForHomebridge(newState, mapValueFunc), undefined, c_mySetContext);
@@ -564,6 +580,7 @@ function makeThing(log, config) {
 
                 log.info(topic, "keys:", JSON.stringify(keys));
 
+                log.info(topic, typeof keys);
 
 
                 if ( Array.isArray(keys) ) {
