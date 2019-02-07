@@ -91,8 +91,8 @@ function makeThing(log, config) {
           return false;
         }
 
-        var value > (config.powerThreshold ? config.powerThreshold : 0.0);
-        return value.toString();
+        var pubVal = value > (config.powerThreshold ? config.powerThreshold : 0.0);
+        return pubVal.toString();
     }
 
     function mapValueForHomebridge(val, mapValueFunc) {
