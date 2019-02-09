@@ -122,7 +122,7 @@ function makeThing(log, config) {
         });
         if (setTopic) {
             charac.on('set', function (value, callback, context) {
-                if (context !== c_mySetContext) {
+                if (context !== c_mySetContext && state[property] !== value) {
                     state[property] = value;
                     mqttPublish(setTopic, onOffValue(value));
                 }
