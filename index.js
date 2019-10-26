@@ -583,14 +583,24 @@ function makeThing(log, config) {
 
                 var keys = config.jsonKeys[getTopic];
 
-                var json= {};
-
                 try {
-                  json = JSON.parse(message);
+                  var json = JSON.parse(message);
 
                   log.info(topic, "keys:", JSON.stringify(keys));
 
                   log.info(topic, typeof keys);
+
+                  if ( Array.isArray(keys) ) {
+                    for (var i = 0; i < keys.length; i++) {
+                      log.info(topic, JSON.stringify(json));
+                      json = json[keys[i]];
+                    }
+
+                    log.info(topic, json);
+                    newState = parseFloat(json.toString());
+                  } else {
+                    return;
+                  }
 
                 } catch(error) {
                   log.error(topic, "error:", error, "message:", message);
@@ -598,17 +608,6 @@ function makeThing(log, config) {
 
 
 
-                if ( Array.isArray(keys) ) {
-                  for (var i = 0; i < keys.length; i++) {
-                    log.info(topic, JSON.stringify(json));
-                    json = json[keys[i]];
-                  }
-
-                  log.info(topic, json);
-                  newState = parseFloat(json.toString());
-                } else {
-                  return;
-                }
               } else {
                 newState = parseFloat(message);
               }
