@@ -583,8 +583,10 @@ function makeThing(log, config) {
 
                 var keys = config.jsonKeys[getTopic];
 
+                var json;
+
                 try {
-                  var json = JSON.parse(message);
+                  json = JSON.parse(message);
 
                   log.info(topic, "keys:", JSON.stringify(keys));
 
@@ -592,6 +594,7 @@ function makeThing(log, config) {
 
                 } catch(error) {
                   log.error(topic, "error:", error, "message:", message);
+                  json = {};
                 }
 
 
