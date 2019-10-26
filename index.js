@@ -583,13 +583,17 @@ function makeThing(log, config) {
 
                 var keys = config.jsonKeys[getTopic];
 
-                log.info(topic, "message:", message);
+                try {
+                  var json = JSON.parse(message);
 
-                var json = JSON.parse(message);
+                  log.info(topic, "keys:", JSON.stringify(keys));
 
-                log.info(topic, "keys:", JSON.stringify(keys));
+                  log.info(topic, typeof keys);
 
-                log.info(topic, typeof keys);
+                } catch(error) {
+                  log.error(topic, "error:", error, "message:", message);
+                }
+
 
 
                 if ( Array.isArray(keys) ) {
