@@ -582,6 +582,9 @@ function makeThing(log, config) {
               if (config.jsonKeys) {
 
                 var keys = config.jsonKeys[getTopic];
+
+                log.info(topic, "message:", message);
+
                 var json = JSON.parse(message);
 
                 log.info(topic, "keys:", JSON.stringify(keys));
